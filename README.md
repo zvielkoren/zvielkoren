@@ -51,11 +51,13 @@ jobs:
         run: |
           awk '
           /<!--PINNED_REPOS_START-->/ {
-            print;
-            system("cat pinned.txt");
-            skip=1;
-            next;
-          }
+[
+  "- **self-streme** → A Powerful Self-Hosted Streaming Server with Stremio Integration (⭐3)",
+  "- **AutoGalleryTool-old** → The AutoGalleryTool system is an automated solution for sharing media files, allowing for filtering and cataloging of images and videos. It enables automatic retrieval from SD cards and sending temporary links to clients. The system is designed to save time and streamline the workflow for photographers and media professionals. (⭐2)",
+  "- **Unovia** → This First My game (⭐2)",
+  "- **DigiArt** → Transform your photo library into a stunning visual gallery. Our tool intelligently categorizes and presents your images. (⭐1)",
+  "- **ItemCompact** → No description (⭐1)"
+]
           /<!--PINNED_REPOS_END-->/ {
             skip=0;
             print;
