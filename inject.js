@@ -239,7 +239,7 @@ score = (stars × 3) + (forks × 2) + (recency_decay × 10)
 // MAIN - Execute Injection
 // ============================================================================
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (import.meta.url === `file:///${process.argv[1].replace(/\\/g, '/')}`) {
   const injection = new InjectionEngine();
   injection.execute();
 }
