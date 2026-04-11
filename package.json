@@ -1,0 +1,33 @@
+{
+  "name": "zvielkoren-profile",
+  "version": "3.0.0",
+  "description": "GitHub Profile Engineering System - Data Pipeline v3 with live metrics dashboard",
+  "main": "pipeline.js",
+  "type": "module",
+  "scripts": {
+    "pipeline": "node pipeline.js",
+    "inject": "node inject.js",
+    "dev": "npm run pipeline && npm run inject",
+    "test": "echo 'Testing pipeline output...'",
+    "clean": "rm -f pipeline-output.json .pipeline-cache/*"
+  },
+  "keywords": [
+    "github-profile",
+    "data-pipeline",
+    "automation",
+    "github-actions",
+    "scoring-engine",
+    "metrics",
+    "readme-generator"
+  ],
+  "author": "Zviel Koren",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zvielkoren/zvielkoren.git"
+  },
+  "homepage": "https://github.com/zvielkoren/zvielkoren"
+}

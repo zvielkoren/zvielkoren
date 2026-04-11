@@ -1,4 +1,4 @@
-name: Update Pinned Repositories
+name: Pinned Repositories Pipeline v3
 
 on:
   schedule:
@@ -9,71 +9,67 @@ permissions:
   contents: write
 
 concurrency:
-  group: pinned-repos-update
+  group: pinned-repos-v3
   cancel-in-progress: true
 
 jobs:
-  update-pinned:
+  build:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
 
-      - name: Fetch repositories (safe)
+      - name: Setup Node.js v20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Execute Data Pipeline v3
         env:
-          GH_USER: zvielkoren
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PIPELINE_USER: zvielkoren
         run: |
-          curl -s --fail "https://api.github.com/users/$GH_USER/repos?per_page=100" > repos.json
+          echo "Starting Data Pipeline v3..."
+          node pipeline.js
+          echo "Pipeline execution complete"
 
-          if [ ! -s repos.json ]; then
-            echo "GitHub API failed"
-            exit 1
-          fi
-
-      - name: Build ranking engine v2 (stable)
+      - name: Render & Inject Content
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cat repos.json | jq '
-            map(select(.fork == false)) |
-            map({
-              name,
-              description,
-              stars: .stargazers_count,
-              forks: .forks_count,
-              updated: .updated_at
-            }) |
-            sort_by([- .stars, - .forks]) |
-            .[0:5] |
-            map("- **\(.name)** → \(.description // "No description") (⭐\(.stars))")
-          ' > pinned.txt
+          echo "Starting injection engine..."
+          node inject.js
+          echo "Injection complete"
 
-      - name: Inject into README safely
+      - name: Git Config
         run: |
-          awk '
-          /<!--PINNED_REPOS_START-->/ {
-            print;
-            system("cat pinned.txt");
-            skip=1;
-            next;
-          }
-          /<!--PINNED_REPOS_END-->/ {
-            skip=0;
-            print;
-            next;
-          }
-          !skip { print }
-          ' README.md > README.tmp
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          mv README.tmp README.md
-
-      - name: Commit changes only if needed
+      - name: Stage & Commit Changes
         run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
-
           git add README.md
+          git diff --cached --quiet
+          if [ $? -eq 0 ]; then
+            echo "No changes detected (idempotent)"
+            exit 0
+          fi
+          
+          git commit -m "chore: update pinned repos via pipeline v3
+          
+          - Executed scoring engine v3 (deterministic ranking)
+          - Applied recency decay & language multipliers
+          - Classified projects by system type
+          - Selected top 6 repositories
+          - Injected system cards into README
 
-          git diff --cached --quiet && exit 0
+          [skip ci]"
 
-          git commit -m "chore: update pinned repositories"
-          git push 
+                - name: Push to Repository
+                  if: success()
+                  run: |
+                    git push origin main
