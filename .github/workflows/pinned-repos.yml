@@ -69,7 +69,7 @@ jobs:
 
           [skip ci]"
 
-                - name: Push to Repository
-                  if: success()
-                  run: |
-                    git push origin main
+      - name: Push to Repository
+        if: success()
+        run: |
+          git push origin main
