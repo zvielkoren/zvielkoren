@@ -143,11 +143,11 @@ A GitHub Action performs the following steps:
 
 <!--PINNED_REPOS_START-->
 [
-  "- zvielkoren → No description",
-  "- chat-server → This project is a learning-focused TCP chat server built in Rust. It is designed as a starting point for a more complex distributed chat system.",
-  "- self-streme → A Powerful Self-Hosted Streaming Server with Stremio Integration",
-  "- AppPrivacy → No description",
-  "- whois-bot → A Discord bot born out of pure boredom. It does WHOIS lookups because I had nothing better to do. Type a domain, get some info, question your life choices, and move on."
+  "- **self-streme** → A Powerful Self-Hosted Streaming Server with Stremio Integration",
+  "- **AutoGalleryTool-old** → The AutoGalleryTool system is an automated solution for sharing media files, allowing for filtering and cataloging of images and videos. It enables automatic retrieval from SD cards and sending temporary links to clients. The system is designed to save time and streamline the workflow for photographers and media professionals.",
+  "- **Unovia** → This First My game",
+  "- **DigiArt** → Transform your photo library into a stunning visual gallery. Our tool intelligently categorizes and presents your images.",
+  "- **ItemCompact** → No description"
 ]
 <!--PINNED_REPOS_END-->
 
