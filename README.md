@@ -245,7 +245,7 @@ All systems are governed by CI-driven automation:
 * Automated artifact generation
 * Release tagging via semantic versioning (planned extension)
 
----
+--- 
 
 # 🧠 System Design Model
 
