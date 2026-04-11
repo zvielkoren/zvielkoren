@@ -25,11 +25,13 @@ jobs:
       - name: Build pinned list sorted by stars
         run: |
           cat repos.json | jq '
-            map(select(.fork == false)) |
-            sort_by(-.stargazers_count, -.updated_at) |
-            .[0:5] |
-            map("- \(.name) → \(.description // "No description")")
-          ' > pinned.txt
+              map(select(.fork == false)) |
+              sort_by(-(.stargazers_count)) |
+              sort_by(.updated_at) |
+              reverse |
+              .[0:5] |
+              map("- \(.name) → \(.description // "No description")")
+            ' > pinned.txt
 
       - name: Inject into README
         run: |
