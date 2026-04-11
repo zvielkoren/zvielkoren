@@ -60,7 +60,7 @@ jobs:
           fi
           
           git commit -m "chore: update pinned repos via pipeline v3
-          
+
           - Executed scoring engine v3 (deterministic ranking)
           - Applied recency decay & language multipliers
           - Classified projects by system type

@@ -24,7 +24,7 @@ const __dirname = path.dirname(__filename);
 
 class GitHubIngestionLayer {
   constructor(token = null) {
-    this.token = token || process.env.GITHUB_TOKEN;
+    this.token = token || process.env.TOKEN;
     this.baseUrl = 'https://api.github.com';
     this.cacheDir = path.join(process.cwd(), '.pipeline-cache');
     this.ensureCacheDir();
