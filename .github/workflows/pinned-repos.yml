@@ -22,10 +22,10 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Setup Node.js v20
+      - name: Setup Node.js v24
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "24"
           cache: "npm"
 
       - name: Execute Data Pipeline v3
