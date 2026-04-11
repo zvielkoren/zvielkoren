@@ -2,7 +2,7 @@ name: Update Pinned Repositories
 
 on:
   schedule:
-    - cron: "0 */6 * * *"   # every 6 hours
+    - cron: "0 */6 * * *"
   workflow_dispatch:
 
 permissions:
@@ -22,31 +22,28 @@ jobs:
         run: |
           curl -s "https://api.github.com/users/$GH_USER/repos?per_page=100" > repos.json
 
-      - name: Build pinned list sorted by stars
+      - name: Build pinned list sorted by stars + recency
         run: |
           cat repos.json | jq '
-              map(select(.fork == false)) |
-              sort_by(-(.stargazers_count)) |
-              sort_by(.updated_at) |
-              reverse |
-              .[0:5] |
-              map("- \(.name) → \(.description // "No description")")
-            ' > pinned.txt
+            map(select(.fork == false)) |
+            sort_by([-.stargazers_count, .updated_at]) |
+            .[0:5] |
+            map("- **\(.name)** → \(.description // "No description")")
+          ' > pinned.txt
 
       - name: Inject into README
         run: |
           awk '
-          BEGIN {inside=1}
           /<!--PINNED_REPOS_START-->/ {
             print;
             system("cat pinned.txt");
-            inside=0;
+            inside=1;
             next;
           }
           /<!--PINNED_REPOS_END-->/ {
-            inside=1;
+            inside=0;
           }
-          inside
+          !inside
           ' README.md > README.tmp && mv README.tmp README.md
 
       - name: Commit changes
@@ -55,6 +52,5 @@ jobs:
           git config user.email "github-actions@github.com"
 
           git add README.md
-
           git commit -m "chore: update pinned repositories" || exit 0
           git push
