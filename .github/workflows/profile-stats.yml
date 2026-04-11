@@ -1,0 +1,51 @@
+name: Update Profile Stats
+
+on:
+  schedule:
+    - cron: "0 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-stats:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Fetch GitHub stats
+        env:
+          USER: zvielkoren
+        run: |
+          curl -s https://api.github.com/users/$USER > user.json
+          curl -s https://api.github.com/users/$USER/repos?per_page=100 > repos.json
+
+          PUBLIC_REPOS=$(jq '.public_repos' user.json)
+          FOLLOWERS=$(jq '.followers' user.json)
+          FOLLOWING=$(jq '.following' user.json)
+
+          STARS=$(jq '[.[].stargazers_count] | add' repos.json)
+
+          echo "PUBLIC_REPOS=$PUBLIC_REPOS" >> $GITHUB_ENV
+          echo "FOLLOWERS=$FOLLOWERS" >> $GITHUB_ENV
+          echo "FOLLOWING=$FOLLOWING" >> $GITHUB_ENV
+          echo "STARS=$STARS" >> $GITHUB_ENV
+
+      - name: Inject into README
+        run: |
+          sed -i "s/<!--STATS:PUBLIC_REPOS-->/$PUBLIC_REPOS/g" README.md
+          sed -i "s/<!--STATS:FOLLOWERS-->/$FOLLOWERS/g" README.md
+          sed -i "s/<!--STATS:FOLLOWING-->/$FOLLOWING/g" README.md
+          sed -i "s/<!--STATS:STARS-->/$STARS/g" README.md
+
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+          git add README.md
+          git commit -m "chore: update profile stats" || exit 0
+          git push
