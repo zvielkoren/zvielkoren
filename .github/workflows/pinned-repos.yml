@@ -8,6 +8,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: pinned-repos
+  cancel-in-progress: true
+
 jobs:
   update-pinned:
     runs-on: ubuntu-latest
@@ -16,19 +20,28 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Fetch repositories from GitHub API
+      - name: Fetch repositories
         env:
           GH_USER: zvielkoren
         run: |
-          curl -s "https://api.github.com/users/$GH_USER/repos?per_page=100" > repos.json
+          curl -s "https://api.github.com/users/$GH_USER/repos?per_page=100" \
+          | jq 'if type=="array" then . else error("Invalid API response") end' \
+          > repos.json
 
-      - name: Build pinned list sorted by stars + recency
+      - name: Build ranking engine v2 (fixed)
         run: |
           cat repos.json | jq '
             map(select(.fork == false)) |
-            sort_by([-.stargazers_count, .updated_at]) |
+            map({
+              name,
+              description,
+              stars: .stargazers_count,
+              forks,
+              updated: .updated_at
+            }) |
+            sort_by([-(.stars), -.forks]) |
             .[0:5] |
-            map("- **\(.name)** → \(.description // "No description")")
+            map("- **\(.name)** → \(.description // "No description") (⭐\(.stars))")
           ' > pinned.txt
 
       - name: Inject into README
@@ -46,11 +59,14 @@ jobs:
           !inside
           ' README.md > README.tmp && mv README.tmp README.md
 
-      - name: Commit changes
+      - name: Commit changes safely
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
 
           git add README.md
-          git commit -m "chore: update pinned repositories" || exit 0
+
+          git diff --cached --quiet && exit 0
+
+          git commit -m "chore: update pinned repositories"
           git push

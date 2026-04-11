@@ -1,244 +1,79 @@
-<h1 align="center">Zviel Koren</h1>
-
-<p align="center">
-Systems Engineer · Mobile Architect · Open-Source Builder · Privacy-First Software · Minecraft Systems Developer
-</p>
-
-<p align="center">
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0f172a,100:1e293b&height=140&section=header" />
-</p>
-
----
-
-# 🚀 Engineering Portfolio
-
-A systems-oriented engineering portfolio focused on event-driven architecture, stateless backend design, and modular runtime systems.
-
----
-
-# 📊 Live Profile Metrics
-
-> Auto-generated signals from GitHub API (updated via GitHub Actions)
-
-* Public Repositories: <!--STATS:PUBLIC_REPOS-->
-* Followers: <!--STATS:FOLLOWERS-->
-* Following: <!--STATS:FOLLOWING-->
-* Total Stars: <!--STATS:STARS-->
-* Account Activity: High-frequency engineering updates
-
----
-
-# 🧠 Core Engineering Identity
-
-## System Domains
-
-* Distributed event-driven systems
-* Stateless backend orchestration layers
-* Client-owned data architectures (BYO storage)
-* Cross-platform mobile systems (Flutter / iOS)
-* Minecraft runtime engineering (Paper / Spigot)
-
-## Architectural Principles
-
-* Backend = orchestration, not authority
-* Events = primary system primitive
-* Storage = external and user-owned
-* Failure = first-class design constraint
-* Modularity > monoliths
-
----
-
-# 🧩 System Cards
-
-## 🟦 OpenSpend
-
-### Privacy-first financial event system
-
-**Type:** Stateless Event Pipeline
-**Model:** BYO Storage
-
-**Core Flow**
-
-```
-Client → Event → Transformation Layer → External Storage
-```
-
-**Capabilities**
-
-* Google Sheets integration
-* Notion / Airtable adapters
-* Webhook-based pipelines
-
-**Status:** Production
-
----
-
-## 🟩 Z Quest
-
-### Mobile interaction engineering system
-
-**Type:** Flutter-based UX system
-**Model:** Lightweight backend coupling
-
-**Capabilities**
-
-* Cross-platform mobile runtime
-* Event-driven UI state transitions
-* Minimal backend dependency design
-
-**Status:** Published App
-
----
-
-## 🟥 Minecraft Engineering System
-
-### Modular Paper plugin architecture
-
-**Type:** JVM runtime system
-**Model:** Event-driven plugin kernel
-
-**Runtime Architecture**
-
-```
-Minecraft Server
-  → Bukkit Event System
-  → Internal EventBus
-  → Module System
-  → Gameplay / World Effects
-```
-
-**Modules**
-
-* Player System
-* World System
-* Command System
-* Integration Layer
-
-**Status:** Active Development
-
----
-
-# 📌 Pinned Systems (Auto-Generated)
-
-> Dynamically rendered via GitHub API + GitHub Actions. Repositories are sorted by star count and injected into this README on a scheduled workflow.
-
-## 🔄 Rendering System
-
-Pinned repositories are not hardcoded. They are generated using the GitHub REST API and ordered by:
-
-1. ⭐ Star count (descending)
-2. 🕒 Last updated timestamp (secondary sort)
-
-## ⚙️ Implementation Layer
-
-A GitHub Action performs the following steps:
-
-* Fetches all user repositories via GitHub API
-* Filters forked/internal noise (optional rule)
-* Sorts by stargazers_count
-* Selects top N repositories
-* Injects into README via marker replacement
-
-## 🧩 Render Output
-
-<!--PINNED_REPOS_START-->
-[
-  "- **self-streme** → A Powerful Self-Hosted Streaming Server with Stremio Integration",
-  "- **AutoGalleryTool-old** → The AutoGalleryTool system is an automated solution for sharing media files, allowing for filtering and cataloging of images and videos. It enables automatic retrieval from SD cards and sending temporary links to clients. The system is designed to save time and streamline the workflow for photographers and media professionals.",
-  "- **Unovia** → This First My game",
-  "- **DigiArt** → Transform your photo library into a stunning visual gallery. Our tool intelligently categorizes and presents your images.",
-  "- **ItemCompact** → No description"
-]
-<!--PINNED_REPOS_END-->
-
-## 📡 Automation Contract
-
-* Source: GitHub REST API v4
-* Execution: GitHub Actions cron workflow
-* Update Frequency: every 6 hours
-* Output: README markdown injection
-
----
-
-# 📡 Minecraft Live Status
-
-> Real-time plugin + server health layer (via CI + build pipeline)
-
-* Build Status: <!--MINECRAFT:BUILD_STATUS-->
-* Last Release: <!--MINECRAFT:LAST_RELEASE-->
-* Plugin Version: <!--MINECRAFT:VERSION-->
-* Runtime Integrity: Verified via CI pipeline
-
----
-
-# ⚙️ Engineering Pipeline Layer
-
-All systems are governed by CI-driven automation:
-
-* GitHub Actions build verification
-* Gradle-based JVM compilation
-* Flutter build validation
-* Automated artifact generation
-* Release tagging via semantic versioning (planned extension)
-
----
-
-# 🧠 System Design Model
-
-### Execution Flow
-
-```
-Client Event → Processing Layer → External State → Stateless Core
-```
-
-### Design Constraints
-
-* No persistent backend authority
-* Externalized storage ownership
-* Deterministic transformation layers
-* Modular runtime boundaries
-
----
-
-# 🧱 Architecture Cards
-
-## Event System
-
-* Primary system primitive
-* Fully decoupled components
-
-## Storage Model
-
-* User-owned persistence
-* No internal database authority
-
-## Runtime Systems
-
-* JVM (Minecraft)
-* Flutter (Mobile)
-* Node/Webhook integrations
-
----
-
-# 🛡️ Trust & Threat Model
-
-* Backend systems are non-authoritative
-* Client is source of truth
-* External storage is replaceable
-* Failures are expected and handled explicitly
-* Minimal attack surface via stateless design
-
----
-
-# 📫 Contact
-
-* Website: [https://zviel.com/](https://zviel.com/)
-* Email: mailto:conatct@zviel.com
-* LinkedIn: [https://www.linkedin.com/in/zvielkoren](https://www.linkedin.com/in/zvielkoren)
-* Discord: zvicraft
-
----
-
-# 🧭 Closing Principle
-
-Systems should minimize centralized ownership while maximizing composability, autonomy, and long-term architectural independence.
+name: Update Pinned Repositories
+
+on:
+  schedule:
+    - cron: "0 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pinned-repos-update
+  cancel-in-progress: true
+
+jobs:
+  update-pinned:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Fetch repositories (safe)
+        env:
+          GH_USER: zvielkoren
+        run: |
+          curl -s --fail "https://api.github.com/users/$GH_USER/repos?per_page=100" > repos.json
+
+          if [ ! -s repos.json ]; then
+            echo "GitHub API failed"
+            exit 1
+          fi
+
+      - name: Build ranking engine v2 (stable)
+        run: |
+          cat repos.json | jq '
+            map(select(.fork == false)) |
+            map({
+              name,
+              description,
+              stars: .stargazers_count,
+              forks: .forks_count,
+              updated: .updated_at
+            }) |
+            sort_by([- .stars, - .forks]) |
+            .[0:5] |
+            map("- **\(.name)** → \(.description // "No description") (⭐\(.stars))")
+          ' > pinned.txt
+
+      - name: Inject into README safely
+        run: |
+          awk '
+          /<!--PINNED_REPOS_START-->/ {
+            print;
+            system("cat pinned.txt");
+            skip=1;
+            next;
+          }
+          /<!--PINNED_REPOS_END-->/ {
+            skip=0;
+            print;
+            next;
+          }
+          !skip { print }
+          ' README.md > README.tmp
+
+          mv README.tmp README.md
+
+      - name: Commit changes only if needed
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+          git add README.md
+
+          git diff --cached --quiet && exit 0
+
+          git commit -m "chore: update pinned repositories"
+          git push
