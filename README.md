@@ -142,13 +142,13 @@ A GitHub Action performs the following steps:
 ## 🧩 Render Output
 
 <!--PINNED_REPOS_START-->
-
-<!-- dynamically generated pinned repos (sorted by stars) -->
-
-* OpenSpend → Event-driven finance engine
-* Z Quest → Mobile interaction runtime
-* Minecraft Plugin System → Modular server framework
-
+[
+  "- zvielkoren → No description",
+  "- chat-server → This project is a learning-focused TCP chat server built in Rust. It is designed as a starting point for a more complex distributed chat system.",
+  "- self-streme → A Powerful Self-Hosted Streaming Server with Stremio Integration",
+  "- AppPrivacy → No description",
+  "- whois-bot → A Discord bot born out of pure boredom. It does WHOIS lookups because I had nothing better to do. Type a domain, get some info, question your life choices, and move on."
+]
 <!--PINNED_REPOS_END-->
 
 ## 📡 Automation Contract
