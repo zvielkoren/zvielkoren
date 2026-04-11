@@ -162,55 +162,13 @@ score = (stars * 3) + (forks * 2) + recency_boost + language_weight
 ## 🧩 Render Output (System Cards)
 
 <!--PINNED_REPOS_START-->
-
-### 🟦 chat-server
-
-**Type:** Distributed Systems / Networking
-**Language:** Rust
-**Score:** High
-
-Learning-focused TCP chat server designed as a foundation for distributed messaging systems.
-
----
-
-### 🟩 self-streme
-
-**Type:** Infrastructure / Streaming
-**Language:** Unknown
-**Score:** High
-
-Self-hosted streaming server with Stremio integration support.
-
----
-
-### 🟨 whois-bot
-
-**Type:** Automation / Discord Bot
-**Language:** JavaScript/TypeScript
-**Score:** Medium
-
-Discord bot performing WHOIS lookups with lightweight interaction design.
-
----
-
-### 🟪 AppPrivacy
-
-**Type:** Privacy / Utility Tooling
-**Language:** Unknown
-**Score:** Medium
-
-Privacy-focused utility project.
-
----
-
-### ⚪ zvielkoren
-
-**Type:** Meta Repository
-**Language:** Mixed
-**Score:** Base
-
-Profile root repository.
-
+[
+  "- **self-streme** → A Powerful Self-Hosted Streaming Server with Stremio Integration (⭐3)",
+  "- **AutoGalleryTool-old** → The AutoGalleryTool system is an automated solution for sharing media files, allowing for filtering and cataloging of images and videos. It enables automatic retrieval from SD cards and sending temporary links to clients. The system is designed to save time and streamline the workflow for photographers and media professionals. (⭐2)",
+  "- **Unovia** → This First My game (⭐2)",
+  "- **DigiArt** → Transform your photo library into a stunning visual gallery. Our tool intelligently categorizes and presents your images. (⭐1)",
+  "- **ItemCompact** → No description (⭐1)"
+]
 <!--PINNED_REPOS_END-->
 
 ---
