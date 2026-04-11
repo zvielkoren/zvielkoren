@@ -27,10 +27,12 @@ jobs:
         with:
           node-version: "24"
           cache: "npm"
-
+      - name: Check and Pull Latest Changes
+        run: |
+          git pull origin main
       - name: Execute Data Pipeline v3
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
           PIPELINE_USER: zvielkoren
         run: |
           echo "Starting Data Pipeline v3..."
@@ -39,7 +41,7 @@ jobs:
 
       - name: Render & Inject Content
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
         run: |
           echo "Starting injection engine..."
           node inject.js
@@ -68,7 +70,6 @@ jobs:
           - Injected system cards into README
 
           [skip ci]"
-
       - name: Push to Repository
         if: success()
         run: |
