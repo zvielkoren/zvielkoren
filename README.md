@@ -20,10 +20,10 @@ A systems-oriented engineering portfolio focused on event-driven architecture, s
 
 > Auto-generated signals from GitHub API (updated via GitHub Actions)
 
-* Public Repositories: <!--STATS:PUBLIC_REPOS-->
-* Followers: <!--STATS:FOLLOWERS-->
-* Following: <!--STATS:FOLLOWING-->
-* Total Stars: <!--STATS:STARS-->
+* Public Repositories: 23
+* Followers: 15
+* Following: 41
+* Total Stars: 13
 * Account Activity: High-frequency engineering updates
 
 ---
